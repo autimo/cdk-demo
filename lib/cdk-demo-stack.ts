@@ -3,6 +3,7 @@ import { Aws, Construct, Stack, StackProps, Stage } from "@aws-cdk/core";
 import {
   CodePipeline,
   CodePipelineSource,
+  ManualApprovalStep,
   ShellStep,
 } from "@aws-cdk/pipelines";
 import { stages } from "./config/stages";
@@ -22,16 +23,18 @@ export class CdkDemoStack extends Stack {
     });
 
     stages.forEach((stage) => {
-      pipeline.addStage(
-        new PipelineStage(this, `${stage.stageName}`, {
-          env: {
-            account: stage.accountId,
-            region: stage.region,
-          },
-          stageName: stage.stageName,
+      const deploymentStage = new PipelineStage(this, `${stage.stageName}`, {
+        env: {
+          account: stage.accountId,
           region: stage.region,
-        })
-      );
+        },
+        stageName: stage.stageName,
+        region: stage.region,
+      });
+
+      pipeline.addStage(deploymentStage, {
+        pre: [ new ManualApprovalStep(`${stage.stageName} check`)],
+      })
     });
   }
 }

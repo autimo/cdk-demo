@@ -1,5 +1,6 @@
 import { Aws, Construct, Stage, StageProps } from "@aws-cdk/core";
 import { DummyService } from "./dummy-service";
+import { SimpleDatabase } from "./local-constructs/simple-database";
 
 interface PipelineStageProps extends StageProps {
   stageName: string;
@@ -12,7 +13,7 @@ export class PipelineStage extends Stage {
 
     const dummyServiceStack = new DummyService(
       this,
-      "CdkInfraLab-DummyService",
+      "CdkDemo-DummyService",
       {
         stageName: `${props?.stageName}`,
         region: `${props?.region}`,
