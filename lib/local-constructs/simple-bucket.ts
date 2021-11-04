@@ -21,7 +21,7 @@ export class SimpleBucket extends Construct {
         versioned: true,
         bucketName:
           `${props.bucketNamePrefix.toLowerCase()}-${props.stageName.toLowerCase()}-` +
-          `${Aws.ACCOUNT_ID}-${props.region.toLowerCase()}-`,
+          `${Aws.ACCOUNT_ID}-${props.region.toLowerCase()}`,
         publicReadAccess: false,
         enforceSSL: true,
         // Explicitly denies access to HTTP requests

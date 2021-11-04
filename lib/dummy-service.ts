@@ -31,7 +31,7 @@ export class DummyService extends Stack {
       this,
       `CdkDemo-DummySimpleDatabase`,
       {
-        tableNamePrefix: `CdkInfraLab-DummySimpleDatabase`,
+        tableNamePrefix: `CdkDemo-DummySimpleDatabase`,
         tableRegion: `${props.region}`,
         stageName: `${props.stageName}`,
         partitionKey: "airport-code",

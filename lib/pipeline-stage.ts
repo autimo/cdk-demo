@@ -17,7 +17,7 @@ export class PipelineStage extends Stage {
       {
         stageName: `${props?.stageName}`,
         region: `${props?.region}`,
-        stackName: `CdkInfraLab-DummyService-${props?.stageName}`,
+        stackName: `CdkDemo-DummyService-${props?.stageName}`,
       }
     );
   }
