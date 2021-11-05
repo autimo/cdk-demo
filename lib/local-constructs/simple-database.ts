@@ -1,4 +1,10 @@
 import { Aws, Construct } from "@aws-cdk/core";
+import {
+  ManagedPolicy,
+  Role, 
+  ServicePrincipal, 
+  PolicyDocument, 
+  PolicyStatement} from '@aws-cdk/aws-iam';
 import { Table, AttributeType, BillingMode } from "@aws-cdk/aws-dynamodb";
 
 interface SimpleDatabaseProps {
@@ -11,10 +17,39 @@ interface SimpleDatabaseProps {
 }
 
 export class SimpleDatabase extends Construct {
+  readonly simpleDatabaseTable: Table;
+  readonly veryRandomRole: Role;
+
   constructor(scope: Construct, id: string, props: SimpleDatabaseProps) {
     super(scope, id);
 
-    const simpleDatabaseTable = new Table(
+    const veryRandomPolicy = new PolicyDocument({
+      statements: [
+        new PolicyStatement({
+          resources: ["*"],
+          actions: [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        }),
+      ],
+    });
+
+    this.veryRandomRole = new Role(this, 'totally-random-role', {
+      assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+      description: 'A totally ramdom role for demonstration',
+      inlinePolicies: {
+        VeryRandomPolicy: veryRandomPolicy,
+      },
+      managedPolicies: [
+        ManagedPolicy.fromAwsManagedPolicyName(
+          'AWSLambdaBasicExecutionRole ',
+        ),
+      ],
+    })
+
+    this.simpleDatabaseTable = new Table(
       this,
       `${props.tableNamePrefix}-${props.stageName}-dynamodb`,
       {

@@ -59,7 +59,9 @@ export class DummyService extends Stack {
         functionName: `CdkDemo-DummyLambda-${props.stageName}`,
         role: dummyLambdaExecutionRole,
         environment: {
-          "DUMMY_BUCKET_ARN": dummySimpleBucket.simpleBucket.bucketName
+          "DUMMY_BUCKET_ARN": dummySimpleBucket.simpleBucket.bucketName,
+          "RANDOM_ROLE_ARN": dummySimpleDatabase.veryRandomRole.roleName,
+          "RANDOM_ROLE_NAME": dummySimpleDatabase.veryRandomRole.roleArn
         },
         code: Code.fromInline(
           `exports.handler = async function (event, context) {
