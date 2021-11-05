@@ -28,6 +28,8 @@ export class PipelineStage extends Stage {
       {
         stageName: `${props?.stageName}`,
         region: `${props?.region}`,
+        dummyLambdaExecutionRole: dummyServiceStack.dummyLambdaExecutionRole.roleArn,
+        dummyLambda: dummyServiceStack.dummyLambda.functionName
       }
     )
   }

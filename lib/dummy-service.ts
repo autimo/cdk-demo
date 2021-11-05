@@ -10,10 +10,14 @@ interface DummyServiceProps extends StackProps {
 }
 
 export class DummyService extends Stack {
+  readonly dummyLambdaExecutionRole: Role;
+  readonly dummySimpleDatabase: SimpleDatabase;
+  readonly dummyLambda: Function;
+  
   constructor(scope: Construct, id: string, props: DummyServiceProps) {
     super(scope, id);
 
-    const dummyLambdaExecutionRole = new Role(
+    this.dummyLambdaExecutionRole = new Role(
       this,
       `CdkDemo-DummyLambda-ExecutionRole-${props.stageName}`,
       {
@@ -27,7 +31,7 @@ export class DummyService extends Stack {
       }
     );
 
-    const dummySimpleDatabase = new SimpleDatabase(
+    this.dummySimpleDatabase = new SimpleDatabase(
       this,
       `CdkDemo-DummySimpleDatabase`,
       {
@@ -50,18 +54,18 @@ export class DummyService extends Stack {
       }
     )
 
-    const dummyLambda = new Function(
+    this.dummyLambda = new Function(
       this,
       `CdkDemo-DummyLambda-${props.stageName}`,
       {
         runtime: Runtime.NODEJS_14_X,
         handler: "index.handler",
         functionName: `CdkDemo-DummyLambda-${props.stageName}`,
-        role: dummyLambdaExecutionRole,
+        role: this.dummyLambdaExecutionRole,
         environment: {
           "DUMMY_BUCKET_ARN": dummySimpleBucket.simpleBucket.bucketName,
-          "RANDOM_ROLE_ARN": dummySimpleDatabase.veryRandomRole.roleName,
-          "RANDOM_ROLE_NAME": dummySimpleDatabase.veryRandomRole.roleArn
+          "RANDOM_ROLE_ARN": this.dummySimpleDatabase.veryRandomRole.roleName,
+          "RANDOM_ROLE_NAME": this.dummySimpleDatabase.veryRandomRole.roleArn
         },
         code: Code.fromInline(
           `exports.handler = async function (event, context) {
