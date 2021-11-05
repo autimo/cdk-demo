@@ -40,9 +40,9 @@ export class StorageLayer extends Stack {
 
     this.storageLambdaExecutionRole = new Role(
       this,
-      `CdkDemo-DummyLambda-ExecutionRole-${props.stageName}`,
+      `CdkDemo-StorageLambda-ExecutionRole-${props.stageName}`,
       {
-        roleName: `CdkDemo-DummyLambda-ExecutionRole-${props.stageName}`,
+        roleName: `CdkDemo-StorageLambda-ExecutionRole-${props.stageName}`,
         assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
         managedPolicies: [
           ManagedPolicy.fromAwsManagedPolicyName(
@@ -54,11 +54,11 @@ export class StorageLayer extends Stack {
 
     this.storageLambda = new Function(
       this,
-      `CdkDemo-DummyLambda-${props.stageName}`,
+      `CdkDemo-StorageLambda-${props.stageName}`,
       {
         runtime: Runtime.NODEJS_14_X,
         handler: "index.handler",
-        functionName: `CdkDemo-DummyLambda-${props.stageName}`,
+        functionName: `CdkDemo-StorageLambda-${props.stageName}`,
         role: this.storageLambdaExecutionRole,
         environment: {
           "DUMMY_LAMBDA_ROLE_ARN": props.dummyLambdaExecutionRole,
