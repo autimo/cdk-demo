@@ -44,7 +44,7 @@ export class SimpleDatabase extends Construct {
       },
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName(
-          'AWSLambdaBasicExecutionRole ',
+          "service-role/AWSLambdaBasicExecutionRole"
         ),
       ],
     })
